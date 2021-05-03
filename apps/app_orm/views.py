@@ -18,10 +18,12 @@ def all_movies(request):
 def movie(request):  
     if request.method == 'GET':
         directors = Director.objects.all()
-        context = {'directors' : directors }
+        genres = Genre.objects.all()
+        context = {'directors' : directors, 'genres':genres }
         return render(request, 'movie.html', context)
     else:
         director = Director.objects.get( id = int(request.POST['director']) )
+        genre = Director.objects.get( id = int(request.POST['genre']) )
         # validar datos
         errors = Movie.objects.basic_validator(request.POST)
         if len(errors) > 0:
@@ -34,7 +36,8 @@ def movie(request):
                         description = request.POST['description'],
                         release_date  =request.POST['release_date'],
                         duration_in_mins = request.POST['duration_in_mins'],
-                        director = director
+                        director = director,
+                        genre = genre
                 )
             return redirect('/movies')
 
@@ -42,24 +45,15 @@ def movie(request):
 def director(request):
     if request.method == 'GET':
         directors =  Director.objects.all()
-        genres = Genre.objects.all()
-        context = {'directors' : directors, 'genres': genres}
+        context = {'directors' : directors}
         return render(request, 'director.html', context)
     else:
-        print (request.POST.getlist('options'))
-        html_options = request.POST.getlist('options')
-        print(html_options)
-        options = [int(item) for item in html_options]
-        print(options)
 
-        new_director = Director.objects.create(
+        Director.objects.create(
             first_name = request.POST['first_name'],
             last_name = request.POST['last_name'],
             nationality = request.POST['nationality']
         )
-        for genre in options:
-            new_director.genre.add(genre)        
-        new_director.save()
         return redirect('/director')   
 
 def genres(request):
@@ -75,6 +69,11 @@ def director_movies(request, director_id):
     director = Director.objects.get(id = int(director_id))
     context = {'director' : director}
     return render(request, 'movies.html', context)
+
+def genre_movies(request, genre_id):
+    genre = Genre.objects.get(id =int(genre_id)) 
+    context = {'genre' : genre}
+    return render(request, 'genre_movies.html', context)   
 
 
 

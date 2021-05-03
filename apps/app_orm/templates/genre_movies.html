@@ -1,0 +1,20 @@
+
+{% extends 'base.html' %}
+
+{% block content%}
+
+<h3>{{genre.genre}}</h3>
+
+<ul>
+
+{% for movie in genre.movies.all%}
+<li>{{movie.title}} , {{movie.duration_in_mins}}</li>
+{% endfor %}
+
+</ul>
+
+<a href="/movie">Registro de Nueva Pelicula</a>
+
+<a href="/genres">Registro de Genero</a>
+
+{%endblock%}

@@ -26,15 +26,7 @@
         <p>First Name: <input type='text' name='first_name'></p>
         <p>Last Name: <input type='text' name='last_name'></p>
         <p>Nationality: <input type='text' name='nationality'></p>
-        <p>Genres: 
-            
-            {% for genre in genres%}
-            <br><input type="checkbox" name="options" id={{genre.id}} value={{genre.id}}> {{genre.id}}, {{genre.genre}} </input><br>
-            {%endfor%}
-        
-    
-        </p>
-        <button type='submit'>Crear Genero</button>
+        <button type='submit'>Crear Director</button>
     </form>    
 
 

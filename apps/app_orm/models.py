@@ -2,10 +2,6 @@
 from __future__ import unicode_literals
 from django.db import models
 
-from django.db import models
-
-
-
 
 class Genre(models.Model):
     genre = models.CharField(max_length=45)
@@ -16,7 +12,7 @@ class Director(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=45)
     nationality = models.CharField(max_length=45)
-    genre = models.ManyToManyField(Genre, related_name='director_genres')
+    #genre = models.ManyToManyField(Genre, related_name='director_genres')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -36,6 +32,7 @@ class Movie(models.Model):
     release_date = models.DateTimeField()
     duration_in_mins = models.IntegerField()
     director = models.ForeignKey(Director, related_name = 'movies', on_delete = models.CASCADE)
+    genre = models.ForeignKey(Genre, related_name = 'movies', on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True) 
     objects = MovieManager()  

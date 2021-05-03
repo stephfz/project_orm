@@ -6,7 +6,7 @@
 <ul>
 
     {% for genre in genres%}
-    <li>{{genre.genre}} </li>
+    <li> <a href="/genre/{{genre.id}}/movies"> {{genre.genre}} </a> </li>
     {% endfor %}
     
 </ul>
