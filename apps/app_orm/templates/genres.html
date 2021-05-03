@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<h3>Generos</h3>
+
+<ul>
+
+    {% for genre in genres%}
+    <li>{{genre.genre}} </li>
+    {% endfor %}
+    
+</ul>
+
+
+<form action = 'genres' method = 'post'>
+    {% csrf_token %}
+    <p>Genero: <input type='text' name='genre'></p>
+    <button type='submit'>Crear Genero</button>
+</form>
+
+{%endblock%}

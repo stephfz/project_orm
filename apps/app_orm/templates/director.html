@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<h1>All directors</h1>
+
+
+<ul>
+
+    {% for director in directors %}
+    <li><h3>{{director.last_name}}, {{director.first_name}}</h3></li>
+        <p><strong>Peliculas</strong></p>
+        <ul>
+            {% for movie in director.movies.all %}
+             <li> <em> {{movie.title}} ,  {{movie.release_date}}  </em> </li>
+            {% endfor %}
+        </ul>
+
+    {% endfor %}
+    
+    </ul>
+
+
+
+    <form action = 'director' method = 'post'>
+        {% csrf_token %}
+        <p>First Name: <input type='text' name='first_name'></p>
+        <p>Last Name: <input type='text' name='last_name'></p>
+        <p>Nationality: <input type='text' name='nationality'></p>
+        <p>Genres: 
+            
+            {% for genre in genres%}
+            <br><input type="checkbox" name="options" id={{genre.id}} value={{genre.id}}> {{genre.id}}, {{genre.genre}} </input><br>
+            {%endfor%}
+        
+    
+        </p>
+        <button type='submit'>Crear Genero</button>
+    </form>    
+
+
+    {%endblock%}
