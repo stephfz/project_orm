@@ -1,10 +1,16 @@
 from django.shortcuts import render, redirect
-from .models import Movie, Director, Genre
+from .models import Movie, Director, Genre, User
 from django.contrib import messages
+from django.http import JsonResponse
+
+import bcrypt
 
 # Create your views here.
 
 def index(request):
+    #if request.session['logged_user']:
+     #   print('user: ', request.session['logged_user'])
+
     return render(request, 'index.html')
 
 def all_movies(request):
@@ -28,7 +34,7 @@ def movie(request):
         errors = Movie.objects.basic_validator(request.POST)
         if len(errors) > 0:
             for key, value in errors.items():
-                messages.error(request, value)
+                messages.error(request, value, key)
             return redirect('/movie')    
         else:
             Movie.objects.create(
@@ -76,6 +82,47 @@ def genre_movies(request, genre_id):
     return render(request, 'genre_movies.html', context)   
 
 
+def register_user(request):
+    if request.method == 'GET':
+        return render(request, 'register.html')
+    else:
+        password = request.POST['password']
+        pw_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+        print (pw_hash)
+        user = User.objects.create(
+            name = request.POST['name'], 
+            password = pw_hash,
+            lastname = request.POST['lastname'],
+            email = request.POST['email']
+        )
+        request.session['logged_user'] = user.name
+        return redirect("/") 
+
+def login_user(request):
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    else:
+        results = User.objects.filter(email=request.POST['email'])
+        print('user: ' , results)
+        if results:
+            logged_user = results[0]
+            print('logged_user: ', logged_user)
+            if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
+                request.session['logged_user'] = logged_user.name   
+                return redirect("/")
+    return redirect('/login')
+
+def logout(request):
+    try:
+        del request.session['logged_user']
+    except:
+        print('Error')
+    return redirect("/")    
 
 
-    
+def checkEmail(request):
+    print("****** Validando Email ******")
+    error = User.objects.checkEmail(request.POST["email"])
+    print ('error: ', error)
+    #return redirect('/register')
+    return JsonResponse({'errors': error})      

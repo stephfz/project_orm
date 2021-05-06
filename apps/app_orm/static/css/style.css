@@ -18,6 +18,10 @@
     text-decoration: none;
     display: inline-block;
   }
+
+  .error{
+    color: red;
+  }
   
   a:hover, a:active {
     background-color: rgb(0, 255, 217);

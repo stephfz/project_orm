@@ -1,0 +1,21 @@
+{% load static %}
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'js/functions.js' %}"> </script>
+</head>
+
+
+
+<h1>Regitro de Usuario</h1>
+
+
+<form action = 'register' id = 'formRegister' method = 'post'>
+    {% csrf_token %}
+    <p>Nombre: <input type='text' name='name'></p>
+    <p>Apellido: <input type='text' name='lastname'></p>
+    <p>Email: <input type='text' id='email' name='email' placeholder="email@domain.com" ></p>
+    <p>Password: <input type='password' name='password'></p>
+    </p> 
+    <button type='submit'>Registrarse</button>
+</form>

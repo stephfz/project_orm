@@ -5,7 +5,7 @@
 {% if messages %}
 <ul class="messages">    
     {% for message in messages %}    
-        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }} {{ message.tags }}</li>    
     {% endfor %}
 </ul>
 {% endif %}
@@ -13,6 +13,14 @@
 <form action = 'movie' method = 'post'>
     {% csrf_token %}
     <p>Titulo: <input type='text' name='title'></p>
+
+    {% for message in messages %}
+        {%if "title" in message.tags%}
+            <p class ="error"> {{message}}</p>
+        {%endif%}
+    {% endfor %} 
+
+
     <p>Description: <input type='text' name='description' placeholder="maximo 40 caracteres"></p>
     <p>Fecha de Estreno: <input type='text' name='release_date' placeholder="dd/mm/AAAA" ></p>
     <p>Duracion: <input type='text' name='duration_in_mins'></p>

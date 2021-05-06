@@ -10,4 +10,8 @@ urlpatterns = [
     path('director', views.director),
     path('genres', views.genres),
     path('genre/<int:genre_id>/movies', views.genre_movies),
+    path('register', views.register_user),
+    path('login', views.login_user),
+    path('logout', views.logout),
+    path('checkEmail', views.checkEmail)
 ]
